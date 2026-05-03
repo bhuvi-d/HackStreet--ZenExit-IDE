@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { Terminal, Trash2, XCircle, Info, CheckCircle2, AlertTriangle, Command, ChevronRight } from 'lucide-react';
+import { Terminal, Trash2, XCircle, Info, CheckCircle2, AlertTriangle, Command, ChevronRight, X } from 'lucide-react';
 import { useEditorStore } from '../store/useEditorStore';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const ConsolePanel = () => {
-  const { consoleLogs, clearLogs } = useEditorStore();
+  const { consoleLogs, clearLogs, toggleTerminal } = useEditorStore();
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -40,13 +40,20 @@ const ConsolePanel = () => {
              ))}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <button 
             onClick={clearLogs}
             className="p-1.5 hover:bg-accent rounded text-muted-foreground hover:text-foreground transition-all group"
             title="Clear Logs"
           >
             <Trash2 size={14} className="group-active:scale-90" />
+          </button>
+          <button 
+            onClick={toggleTerminal}
+            className="p-1.5 hover:bg-accent rounded text-muted-foreground hover:text-red-500 transition-all group"
+            title="Close Terminal"
+          >
+            <X size={14} className="group-active:scale-90" />
           </button>
         </div>
       </div>

@@ -10,7 +10,8 @@ import {
   Check, 
   FileInput,
   Lightbulb,
-  Zap
+  Zap,
+  X
 } from 'lucide-react';
 import { useEditorStore } from '../store/useEditorStore';
 import { getAiResponse } from '../utils/mockAI';
@@ -19,14 +20,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ChatPanel = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { aiMessages, addAiMessage, files, activeFileId, insertCodeToActiveFile, clearLogs } = useEditorStore();
+  const { aiMessages, addAiMessage, files, activeFileId, insertCodeToActiveFile, clearLogs, toggleChat } = useEditorStore();
   const chatEndRef = useRef(null);
   const [copiedId, setCopiedId] = useState(null);
 
   const activeFile = files.find(f => f.id === activeFileId);
 
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    chatEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
 
   useEffect(() => {
@@ -63,9 +64,9 @@ const ChatPanel = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-sidebar/30 backdrop-blur-md">
+    <div id="tour-ai" className="flex flex-col h-full w-full bg-sidebar/30 backdrop-blur-md overflow-hidden">
       {/* AI Header */}
-      <div className="p-4 border-b border-border flex items-center justify-between bg-background/20">
+      <div className="p-4 border-b border-border flex items-center justify-between bg-background/20 shrink-0">
         <div className="flex flex-col">
           <div className="flex items-center gap-2 text-primary font-black tracking-tighter">
             <Sparkles size={16} className="text-primary animate-pulse" />
@@ -73,7 +74,7 @@ const ChatPanel = () => {
           </div>
           <span className="text-[9px] text-muted-foreground uppercase tracking-widest mt-0.5">Real-time Insights</span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <button 
             onClick={() => clearLogs()}
             className="text-muted-foreground hover:text-foreground transition-colors p-1.5 hover:bg-accent rounded"
@@ -81,101 +82,110 @@ const ChatPanel = () => {
           >
             <Trash2 size={14} />
           </button>
+          <button 
+            onClick={toggleChat}
+            className="text-muted-foreground hover:text-red-500 transition-colors p-1.5 hover:bg-accent rounded"
+            title="Close Assistant"
+          >
+            <X size={14} />
+          </button>
         </div>
       </div>
 
-      {/* Chat History */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar">
-        {aiMessages.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center opacity-20 text-center px-4">
-            <Bot size={48} strokeWidth={1} />
-            <p className="mt-4 text-xs font-medium uppercase tracking-widest">Awaiting Input</p>
-            <p className="text-[10px] mt-2">I can optimize, explain, or debug your active file content.</p>
-          </div>
-        )}
+      {/* Chat History Area (Resilient to shifts) */}
+      <div className="flex-1 relative overflow-hidden min-h-0 bg-black/5">
+        <div className="absolute inset-0 overflow-y-auto p-4 space-y-6 custom-scrollbar scroll-smooth">
+          {aiMessages.length === 0 && (
+            <div className="h-full flex flex-col items-center justify-center opacity-20 text-center px-4">
+              <Bot size={48} strokeWidth={1} />
+              <p className="mt-4 text-xs font-medium uppercase tracking-widest">Awaiting Input</p>
+              <p className="text-[10px] mt-2">I can optimize, explain, or debug your active file content.</p>
+            </div>
+          )}
 
-        <AnimatePresence initial={false}>
-          {aiMessages.map((msg, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`flex flex-col gap-2 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
-            >
-              <div className={`flex items-center gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
-                  msg.role === 'assistant' ? 'bg-primary/20 text-primary' : 'bg-secondary text-foreground'
-                }`}>
-                  {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
-                </div>
-                <span className="text-[10px] font-bold uppercase text-muted-foreground/60">
-                  {msg.role === 'assistant' ? 'ZenExit Bot' : 'You'}
-                </span>
-              </div>
-              
-              <div className="flex flex-col gap-3 w-full">
-                <div className={`rounded-xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
-                  msg.role === 'assistant' 
-                    ? 'bg-secondary/40 text-foreground border border-border/50' 
-                    : 'bg-primary/80 text-white self-end ml-8'
-                }`}>
-                  {msg.content.split('\n').map((line, i) => (
-                    <p key={i} className={i > 0 ? 'mt-2' : ''}>{line}</p>
-                  ))}
+          <AnimatePresence initial={false}>
+            {aiMessages.map((msg, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex flex-col gap-2 ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+              >
+                <div className={`flex items-center gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center ${
+                    msg.role === 'assistant' ? 'bg-primary/20 text-primary' : 'bg-secondary text-foreground'
+                  }`}>
+                    {msg.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                  </div>
+                  <span className="text-[10px] font-bold uppercase text-muted-foreground/60">
+                    {msg.role === 'assistant' ? 'ZenExit Bot' : 'You'}
+                  </span>
                 </div>
                 
-                {msg.role === 'assistant' && msg.suggestedCode && (
-                  <div className="flex gap-2 pl-2">
-                    <button 
-                      onClick={() => insertCodeToActiveFile(msg.suggestedCode)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/20 text-primary hover:bg-primary/30 rounded-lg text-[10px] font-bold transition-all border border-primary/20"
-                    >
-                      <Zap size={12} />
-                      INSERT CODE
-                    </button>
-                    <button 
-                      onClick={() => handleCopy(msg.suggestedCode, idx)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary text-muted-foreground hover:text-foreground rounded-lg text-[10px] font-bold transition-all border border-border"
-                    >
-                      {copiedId === idx ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
-                      {copiedId === idx ? 'COPIED' : 'COPY'}
-                    </button>
+                <div className="flex flex-col gap-3 w-full">
+                  <div className={`rounded-xl px-4 py-3 text-sm leading-relaxed shadow-sm ${
+                    msg.role === 'assistant' 
+                      ? 'bg-secondary/40 text-foreground border border-border/50' 
+                      : 'bg-primary/80 text-white self-end ml-8'
+                  }`}>
+                    {msg.content.split('\n').map((line, i) => (
+                      <p key={i} className={i > 0 ? 'mt-2' : ''}>{line}</p>
+                    ))}
                   </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-        
-        {isLoading && (
-          <div className="flex flex-col gap-2 items-start">
-             <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
-                  <Bot size={14} />
+                  
+                  {msg.role === 'assistant' && msg.suggestedCode && (
+                    <div className="flex gap-2 pl-2">
+                      <button 
+                        onClick={() => insertCodeToActiveFile(msg.suggestedCode)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/20 text-primary hover:bg-primary/30 rounded-lg text-[10px] font-bold transition-all border border-primary/20"
+                      >
+                        <Zap size={12} />
+                        INSERT CODE
+                      </button>
+                      <button 
+                        onClick={() => handleCopy(msg.suggestedCode, idx)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-secondary text-muted-foreground hover:text-foreground rounded-lg text-[10px] font-bold transition-all border border-border"
+                      >
+                        {copiedId === idx ? <Check size={12} className="text-green-500" /> : <Copy size={12} />}
+                        {copiedId === idx ? 'COPIED' : 'COPY'}
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <span className="text-[10px] font-bold uppercase text-muted-foreground/60 italic animate-pulse">
-                  Analyzing Code...
-                </span>
-              </div>
-            <div className="bg-secondary/30 rounded-xl px-4 py-3 border border-border/50 flex gap-2">
-              <div className="flex gap-1">
-                {[0, 1, 2].map(i => (
-                  <motion.div 
-                    key={i}
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.15 }}
-                    className="w-1 h-1 bg-primary rounded-full"
-                  />
-                ))}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          
+          {isLoading && (
+            <div className="flex flex-col gap-2 items-start">
+               <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+                    <Bot size={14} />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase text-muted-foreground/60 italic animate-pulse">
+                    Analyzing Code...
+                  </span>
+                </div>
+              <div className="bg-secondary/30 rounded-xl px-4 py-3 border border-border/50 flex gap-2">
+                <div className="flex gap-1">
+                  {[0, 1, 2].map(i => (
+                    <motion.div 
+                      key={i}
+                      animate={{ y: [0, -4, 0] }}
+                      transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.15 }}
+                      className="w-1 h-1 bg-primary rounded-full"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <div ref={chatEndRef} />
+          )}
+          <div ref={chatEndRef} className="h-px" />
+        </div>
       </div>
 
       {/* AI Input Area */}
-      <div className="p-4 border-t border-border bg-background/20">
+      <div className="p-4 border-t border-border bg-background/20 shrink-0">
         <div className="bg-secondary/40 border border-border rounded-2xl p-2 focus-within:ring-1 ring-primary/40 transition-all">
           <textarea
             value={input}

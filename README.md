@@ -1,16 +1,92 @@
-# React + Vite
+# ⚡ ZenExit IDE — The AI-Powered Zen Workspace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**ZenExit IDE** is a premium, high-performance web-based Integrated Development Environment (IDE) designed for modern developers who crave speed, intelligence, and a distraction-free "Zen" environment. Built for hackathons and rapid prototyping, it combines a sophisticated Monaco-powered editor with real-time AI insights and a robust simulation runtime.
 
-Currently, two official plugins are available:
+![ZenExit IDE Mockup](https://raw.githubusercontent.com/bhuvi-d/HackStreet--ZenExit-IDE/main/src/assets/hero.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🛠️ Boilerplate Engine
+Start your projects in seconds. ZenExit features a built-in template engine providing professional boilerplates for **9+ programming languages**, including:
+*   **Web**: HTML, CSS, JavaScript, TypeScript
+*   **Systems**: Rust, Go, C++, Java
+*   **Data/Scripting**: Python
 
-## Expanding the ESLint configuration
+### 🤖 ZenExit AI Assistant
+A context-aware AI partner built directly into the workspace.
+*   **Real-time Optimization**: Get code improvements as you type.
+*   **One-Click Injection**: Seamlessly apply AI suggestions directly into your active file.
+*   **Deep Debugging**: Understand errors and logic flaws with specialized insights.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 💻 Robust Simulation Runtime
+A fully integrated, bottom-docked terminal providing real-time execution feedback.
+*   **Dynamic Resizing**: Drag-and-drop terminal interface for flexible layouts.
+*   **Language Detection**: Automatic mapping of code to specialized output formats.
+*   **Persistent Logs**: Clear, formatted logs with success/warning/error indicators.
+
+### 🎨 Premium "Zen" UI
+Designed for flow and focus.
+*   **Glassmorphism**: A modern, translucent interface with subtle backdrop blurs.
+*   **Command Palette (Ctrl+P)**: Instant file switching and global search.
+*   **Responsive Resizing**: All panels (Sidebar, Editor, Chat, Terminal) are fully resizable and togglable.
+*   **Dark/Light Mode**: Elegant themes optimized for long coding sessions.
+
+---
+
+## 🛠️ Tech Stack
+
+*   **Frontend**: React 19, Vite 8
+*   **Editor Engine**: Monaco Editor (The core of VS Code)
+*   **State Management**: Zustand (Atomic state with LocalStorage persistence)
+*   **Animations**: Framer Motion (Fluid transitions and micro-interactions)
+*   **Styling**: Tailwind CSS (Utility-first design)
+*   **Icons**: Lucide React
+*   **Deployment**: Vercel (SPA-optimized)
+
+---
+
+## 🏗️ Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/bhuvi-d/HackStreet--ZenExit-IDE.git
+   cd HackStreet--ZenExit-IDE
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🌐 Vercel Deployment
+
+ZenExit is optimized for Vercel. The included `vercel.json` ensures that Single Page Application (SPA) routing works perfectly across all sub-paths.
+
+To deploy:
+1. Push your code to GitHub.
+2. Connect your repository to Vercel.
+3. The build command `npm run build` and output directory `dist` will be detected automatically.
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+*Built with ❤️ for the HackStreet Hackathon.*

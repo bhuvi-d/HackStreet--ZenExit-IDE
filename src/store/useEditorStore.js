@@ -41,11 +41,19 @@ export const useEditorStore = create(
       theme: 'dark',
       isSidebarOpen: true,
       isTerminalVisible: true,
+      isChatOpen: true,
+      terminalHeight: 256,
+      chatWidth: 320,
       panelSizes: { sidebar: 20, main: 60, chat: 20 },
       isQuickSwitcherOpen: false,
+      hasSeenWelcome: false,
 
       setTheme: (theme) => set({ theme }),
+      setHasSeenWelcome: (hasSeenWelcome) => set({ hasSeenWelcome }),
+      setTerminalHeight: (height) => set({ terminalHeight: height }),
+      setChatWidth: (width) => set({ chatWidth: width }),
       toggleTerminal: () => set(state => ({ isTerminalVisible: !state.isTerminalVisible })),
+      toggleChat: () => set(state => ({ isChatOpen: !state.isChatOpen })),
       setPanelSizes: (sizes) => set({ panelSizes: sizes }),
       setQuickSwitcherOpen: (isOpen) => set({ isQuickSwitcherOpen: isOpen }),
       
@@ -203,7 +211,11 @@ export const useEditorStore = create(
         files: state.files, 
         theme: state.theme,
         openFiles: state.openFiles,
-        activeFileId: state.activeFileId
+        activeFileId: state.activeFileId,
+        terminalHeight: state.terminalHeight,
+        chatWidth: state.chatWidth,
+        isChatOpen: state.isChatOpen,
+        hasSeenWelcome: state.hasSeenWelcome
       }),
     }
   )

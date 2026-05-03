@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { clsx } from 'clsx';
 import ResizableLayout from './components/ResizableLayout';
 import QuickSwitcher from './components/QuickSwitcher';
+import WelcomeModal from './components/WelcomeModal';
 import { 
   Menu, 
   Moon, 
@@ -33,6 +34,7 @@ function App() {
     setActiveFile
   } = useEditorStore();
 
+  const [showWelcome, setShowWelcome] = React.useState(true);
   const [isFileDropdownOpen, setIsFileDropdownOpen] = React.useState(false);
 
   useEffect(() => {
@@ -80,6 +82,10 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background text-foreground selection:bg-primary/30 font-sans antialiased">
+      <AnimatePresence>
+        {showWelcome && <WelcomeModal onComplete={() => setShowWelcome(false)} />}
+      </AnimatePresence>
+
       <QuickSwitcher />
       
       {/* Premium Top Bar */}
@@ -101,6 +107,7 @@ function App() {
             {['File', 'Edit', 'Selection', 'View', 'Go', 'Run', 'Terminal', 'Help'].map(item => (
               <div key={item} className="relative">
                 <button 
+                  id={item === 'File' ? 'tour-file' : item === 'Run' ? 'tour-run' : undefined}
                   onClick={() => {
                     if (item === 'File') setIsFileDropdownOpen(!isFileDropdownOpen);
                     else {
