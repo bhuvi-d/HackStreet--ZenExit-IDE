@@ -1,8 +1,8 @@
 # ⚡ ZenExit IDE — The AI-Powered Zen Workspace
 
-**ZenExit IDE** is a premium, high-performance web-based Integrated Development Environment (IDE) designed for modern developers who crave speed, intelligence, and a distraction-free "Zen" environment. Built for hackathons and rapid prototyping, it combines a sophisticated Monaco-powered editor with real-time AI insights and a robust simulation runtime.
+**ZenExit IDE** is a premium, high-performance web-based Integrated Development Environment (IDE) designed for modern developers who crave speed, intelligence, and a distraction-free "Zen" environment.
 
-![ZenExit IDE Mockup](https://raw.githubusercontent.com/bhuvi-d/HackStreet--ZenExit-IDE/main/src/assets/hero.png)
+![ZenExit IDE Mockup](./src/assets/hero.png)
 
 ---
 
