@@ -2,7 +2,7 @@
 
 **ZenExit IDE** is a premium, high-performance web-based Integrated Development Environment (IDE) designed for modern developers who crave speed, intelligence, and a distraction-free "Zen" environment.
 
-![ZenExit IDE Mockup](./src/assets/hero.png)
+
 
 ---
 
