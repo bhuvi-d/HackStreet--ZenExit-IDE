@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-border: #2d2d30;
+  --color-input: #2d2d30;
+  --color-ring: #6366f1;
+  --color-background: #0d0d0e;
+  --color-foreground: #e1e1e3;
+  --color-primary: #6366f1;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1f1f23;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #1f1f23;
+  --color-muted-foreground: #a1a1aa;
+  --color-accent: #1f1f23;
+  --color-accent-foreground: #ffffff;
+  --color-popover: #0d0d0e;
+  --color-popover-foreground: #ffffff;
+  --color-card: #0d0d0e;
+  --color-card-foreground: #ffffff;
+  --color-sidebar: #161618;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.monaco-editor-container {
+  width: 100%;
+  height: 100%;
+}
+
+.panel-handle {
+  background-color: var(--color-border);
+  width: 1px;
+}
+
+.panel-handle:hover {
+  background-color: var(--color-primary);
+}
